@@ -21,7 +21,7 @@ export default function GalleryView() {
         setTimeout(() => {
             setIndex((prev) => (prev + dir + mustangs.length) % mustangs.length);
             setIsSliding(false);
-        }, 600); // debe coincidir con la duración de la animación
+        }, 100); // debe coincidir con la duración de la animación
     };
 
     const slideVariants = {
