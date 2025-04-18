@@ -19,8 +19,20 @@ export default function CarDetailView() {
             <div className="flex gap-8 items-center">
                 <button onClick={anterior} className="text-2xl">◀</button>
                 <div className="bg-gray-900 p-4 rounded-2xl shadow-lg w-[500px] text-center">
-                    <img src={mustang.imgFront} alt="Vista frontal" className="rounded mb-4" />
-                    <img src={mustang.imgBack} alt="Vista trasera" className="rounded mb-4" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img
+                            src={mustang.imgFront}
+                            alt="Vista frontal"
+                            className="rounded shadow-lg w-full max-w-[600px] h-auto object-contain"
+                        />
+                        <img
+                            src={mustang.imgBack}
+                            alt="Vista trasera"
+                            className="rounded shadow-lg w-full max-w-[600px] h-auto object-contain"
+                        />
+                    </div>
+
+
                     <div className="text-left">
                         <p><strong>Año:</strong> {mustang.año}</p>
                         <p><strong>Potencia:</strong> {mustang.hp} HP</p>

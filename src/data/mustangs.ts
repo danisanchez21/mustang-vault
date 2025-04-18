@@ -15,8 +15,8 @@ export const mustangs: Mustang[] = [
         año: 1967,
         hp: 271,
         velocidad: 120,
-        imgFront: '/assets/fastback-front.jpg',
-        imgBack: '/assets/fastback-back.jpg',
+        imgFront: '/assets/fastback-front.png',
+        imgBack: '/assets/fastback-back.png',
     },
     {
         id: 2,
