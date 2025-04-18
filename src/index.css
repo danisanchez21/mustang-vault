@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'FordScript';
-  src: url('./assets/fonts/FordScript.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'FordAntenna';
+  src: url('/src/assets/fonts/FordAntenna.otf') format('truetype');
+}
+
+.ford-font {
+  font-family: 'FordAntenna';
 }

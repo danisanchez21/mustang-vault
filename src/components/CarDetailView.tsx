@@ -19,7 +19,7 @@ export default function CarDetailView() {
             className="min-h-screen bg-cover bg-center text-cyan-400 flex flex-col items-center justify-center font-sans p-6"
             style={{ backgroundImage: `url(${bgCyberpunk})` }}
         >
-            <h1 className="text-6xl font-bold text-cyan-300 mb-8">Galería &gt;</h1>
+            <h1 className="ford-font text-6xl font-bold text-cyan-300 mb-8">Galería &gt;</h1>
 
             <div className="flex items-center justify-center gap-6 mb-8">
                 {/* Modelo anterior */}
@@ -39,8 +39,8 @@ export default function CarDetailView() {
                         className="w-full max-w-[285px] h-auto object-contain mb-10 mt-8 mx-auto rounded"
 
                     />
-                    <p className="text-2xl font-semibold text-cyan-300 mb-2">{mustang.nombre}</p>
-                    <div className="text-sm text-white text-left">
+                    <p className="ford-font text-2xl font-semibold text-cyan-300 mb-2">{mustang.nombre}</p>
+                    <div className="ford-font text-sm text-white text-left">
                         <p><strong>Año:</strong> {mustang.año}</p>
                         <p><strong>Potencia:</strong> {mustang.hp} HP</p>
                         <p><strong>Velocidad Máx:</strong> {mustang.velocidad} MPH</p>
