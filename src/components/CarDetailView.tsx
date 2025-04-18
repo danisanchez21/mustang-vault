@@ -2,7 +2,7 @@ import { Mustang } from '../data/mustangs';
 
 interface Props {
     mustang: Mustang;
-    isMain?: boolean; // Si es el coche central o no (para estilos)
+    isMain?: boolean;
 }
 
 export default function CarDetailView({ mustang, isMain = false }: Props) {
