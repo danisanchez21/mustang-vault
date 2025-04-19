@@ -1,11 +1,8 @@
-import CarDetailView from './components/CarDetailView';
+import GalleryView from './components/GalleryView';
 
 function App() {
-  return (
-    <div>
-      <CarDetailView />
-    </div>
-  );
+  return <GalleryView />;
 }
+
 
 export default App;
