@@ -1,5 +1,6 @@
 import { useEffect, useRef, FC } from "react";
 import { gsap } from "gsap";
+import { motion } from "framer-motion";
 import "./GridMotion.css";
 
 interface Section {
@@ -38,8 +39,7 @@ const GridMotion: FC<GridMotionProps> = ({
                 if (row) {
                     const direction = index % 2 === 0 ? 1 : -1;
                     const moveAmount =
-                        ((mouseXRef.current / window.innerWidth) * maxMoveAmount -
-                            maxMoveAmount / 2) *
+                        ((mouseXRef.current / window.innerWidth) * maxMoveAmount - maxMoveAmount / 2) *
                         direction;
 
                     gsap.to(row, {
@@ -78,7 +78,12 @@ const GridMotion: FC<GridMotionProps> = ({
                                 rowRefs.current[idx] = el;
                             }}
                         >
-                            <div className="row__item scale-110">
+                            <motion.div
+                                className="row__item scale-110"
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: idx * 0.2 }}
+                            >
                                 <div className="row__item-inner shadow-2xl rounded-xl overflow-hidden">
                                     <div
                                         className="relative w-full h-full cursor-pointer group"
@@ -96,7 +101,7 @@ const GridMotion: FC<GridMotionProps> = ({
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     ))}
                 </div>
