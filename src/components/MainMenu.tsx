@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import GridMotion from "./GridMotion";
 import fordLogo from "/assets/ford_logo_flat.png";
@@ -15,11 +16,27 @@ interface MainMenuProps {
 }
 
 export default function MainMenu({ menuItems }: MainMenuProps) {
+    const [time, setTime] = useState<string>("");
+
+    useEffect(() => {
+        const updateClock = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, "0");
+            const minutes = now.getMinutes().toString().padStart(2, "0");
+            setTime(`${hours}:${minutes}`);
+        };
+
+        updateClock();
+        const interval = setInterval(updateClock, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div
-            className="w-full min-h-screen text-white flex flex-col items-center justify-start overflow-visible bg-cover bg-center relative"
+            className="w-screen h-screen overflow-hidden text-white flex flex-col items-center justify-start bg-cover bg-center relative"
             style={{ backgroundImage: "url('/assets/fondo-menu-bg.jpg')" }}
         >
+
             {/* Logo Ford arriba izquierda */}
             <img
                 src={fordLogo}
@@ -27,12 +44,17 @@ export default function MainMenu({ menuItems }: MainMenuProps) {
                 className="absolute top-4.5 left-4 w-30 h-auto z-30"
             />
 
-            {/* Logo Mustang arriba derecha */}
-            <img
-                src={mustangLogo}
-                alt="Mustang Logo"
-                className="absolute top-3 right-4 w-28 h-auto z-30"
-            />
+            {/* Contenedor de reloj + logo Mustang a la derecha */}
+            <div className="absolute top-3 right-4 flex items-center gap-3 z-30">
+                <div className="text-white font-mono text-base bg-black/50 px-3 py-1 rounded shadow-md">
+                    {time}
+                </div>
+                <img
+                    src={mustangLogo}
+                    alt="Mustang Logo"
+                    className="w-28 h-auto"
+                />
+            </div>
 
             {/* Título con fondo tipo barra */}
             <div className="w-full py-4 bg-gradient-to-r from-[#240c62]/80 to-[#120a40]/80 text-center z-20">
