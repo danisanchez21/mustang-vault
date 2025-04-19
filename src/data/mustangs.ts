@@ -25,8 +25,8 @@ export const mustangs: Mustang[] = [
         año: 1969,
         hp: 335,
         velocidad: 126,
-        imgFront: "/assets/fastback-front.png",
-        imgBack: "/assets/fastback-back.png",
+        imgFront: "/assets/mach1-front.png",
+        imgBack: "/assets/mach1-back.png",
         model3DId: "fd8d342bb5ad45a999c5908fa0311b58",
     },
     {
@@ -35,7 +35,7 @@ export const mustangs: Mustang[] = [
         año: 1970,
         hp: 290,
         velocidad: 127,
-        imgFront: "/assets/fastback-front.png",
-        imgBack: "/assets/fastback-back.png",
+        imgFront: "/assets/boss302-front.jpg",
+        imgBack: "/assets/boss302-back.jpg",
     },
 ];
