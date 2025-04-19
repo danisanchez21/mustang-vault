@@ -1,5 +1,5 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GalleryView from "./components/GalleryView";
 import SplashScreen from "./components/SplashScreen";
 import MainMenu from "./components/MainMenu";
@@ -15,13 +15,13 @@ function App() {
     {
       title: "Comparar",
       subtitle: "Mira las diferencias",
-      image: "/assets/violet-cyberpunk-background2.jpg",
+      image: "/assets/compare.webp",
       onClick: () => alert("Comparar aún no implementado"),
     },
     {
       title: "Ajustes",
       subtitle: "Opciones y personalización",
-      image: "/assets/menu-bg.jpg",
+      image: "/assets/ajustes-bg.jpg",
       onClick: () => alert("Ajustes aún no implementado"),
     },
     {

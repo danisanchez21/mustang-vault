@@ -1,39 +1,55 @@
-import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import GridMotion from "./GridMotion";
-import galleryImg from "/public/assets/gallery-bg.jpg";
-import compareImg from "/public/assets/menu-bg.jpg";
-import settingsImg from "/public/assets/splash-bg.jpg";
-import historyImg from "/public/assets/history-bg.jpg";
+import fordLogo from "/assets/ford_logo_flat.png";
+import mustangLogo from "/assets/logo-ford.png";
 
-export default function MainMenu() {
-    const navigate = useNavigate();
+interface MenuItem {
+    title: string;
+    subtitle: string;
+    image: string;
+    onClick: () => void;
+}
 
-    const menuItems = [
-        {
-            title: "Galería",
-            subtitle: "Modelos Clásicos",
-            image: galleryImg,
-            onClick: () => navigate("/gallery"),
-        },
-        {
-            title: "Comparar",
-            subtitle: "Mira las diferencias",
-            image: compareImg,
-            onClick: () => alert("Comparar aún no disponible"),
-        },
-        {
-            title: "Ajustes",
-            subtitle: "Opciones y personalización",
-            image: settingsImg,
-            onClick: () => alert("Ajustes en construcción"),
-        },
-        {
-            title: "Historia",
-            subtitle: "Línea del tiempo Mustang",
-            image: historyImg,
-            onClick: () => alert("Historia en desarrollo"),
-        },
-    ];
+interface MainMenuProps {
+    menuItems: MenuItem[];
+}
 
-    return <GridMotion sections={menuItems} />;
+export default function MainMenu({ menuItems }: MainMenuProps) {
+    return (
+        <div
+            className="w-full min-h-screen text-white flex flex-col items-center justify-start overflow-visible bg-cover bg-center relative"
+            style={{ backgroundImage: "url('/assets/fondo-menu-bg.jpg')" }}
+        >
+            {/* Logo Ford arriba izquierda */}
+            <img
+                src={fordLogo}
+                alt="Ford Logo"
+                className="absolute top-4.5 left-4 w-30 h-auto z-30"
+            />
+
+            {/* Logo Mustang arriba derecha */}
+            <img
+                src={mustangLogo}
+                alt="Mustang Logo"
+                className="absolute top-3 right-4 w-28 h-auto z-30"
+            />
+
+            {/* Título con fondo tipo barra */}
+            <div className="w-full py-4 bg-gradient-to-r from-[#240c62]/80 to-[#120a40]/80 text-center z-20">
+                <motion.h1
+                    className="ford-font text-cyan-400 text-4xl md:text-5xl"
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                >
+                    Mustang Vault
+                </motion.h1>
+            </div>
+
+            {/* Menú con GridMotion */}
+            <div className="z-10">
+                <GridMotion sections={menuItems} gradientColor="transparent" />
+            </div>
+        </div>
+    );
 }
