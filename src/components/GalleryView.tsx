@@ -1,46 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { mustangs } from '../data/mustangs';
 import CarDetailView from './CarDetailView';
 import bgCyberpunk from '/public/assets/violet-cyberpunk-background.jpg';
+import Modal from './Modal';
+import SketchfabViewer from './SketchfabViewer';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, animate } from 'framer-motion';
 
 export default function GalleryView() {
     const [index, setIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
     const [isSliding, setIsSliding] = useState(false);
+    const [show3D, setShow3D] = useState(false);
 
-    const getPrevIndex = () => (index - 1 + mustangs.length) % mustangs.length;
-    const getNextIndex = () => (index + 1) % mustangs.length;
+    const x = useMotionValue(0);
+    const cardWidth = 320;
+    const gap = 48;
+    const wrapperWidth = 960;
+    const offset = (wrapperWidth - cardWidth) / 2;
+
+    useEffect(() => {
+        const controls = animate(x, -index * (cardWidth + gap) + offset, {
+            type: 'spring',
+            stiffness: 300,
+            damping: 30,
+        });
+        return controls.stop;
+    }, [index]);
 
     const goTo = (dir: number) => {
         if (isSliding) return;
-        setDirection(dir);
         setIsSliding(true);
-
         setTimeout(() => {
             setIndex((prev) => (prev + dir + mustangs.length) % mustangs.length);
             setIsSliding(false);
-        }, 100); // debe coincidir con la duración de la animación
+        }, 300);
     };
 
-    const slideVariants = {
-        enter: (dir: number) => ({
-            x: dir > 0 ? 400 : -400,
-            opacity: 0,
-        }),
-        center: { x: 0, opacity: 1 },
-        exit: (dir: number) => ({
-            x: dir > 0 ? -400 : 400,
-            opacity: 0,
-        }),
-    };
-
-    const visibleCars = [
-        mustangs[getPrevIndex()],
-        mustangs[index],
-        mustangs[getNextIndex()],
-    ];
+    const currentMustang = mustangs[index];
 
     return (
         <div
@@ -58,20 +54,20 @@ export default function GalleryView() {
                     ◀
                 </button>
 
-                <div className="relative w-[900px] overflow-hidden">
+                <div className="w-full max-w-[960px] min-h-[640px] flex items-center justify-center overflow-hidden relative">
                     <motion.div
-                        className="flex gap-12 justify-center items-center"
-                        key={index}
-                        custom={direction}
-                        variants={slideVariants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        transition={{ duration: 0.6 }}
+                        className="flex gap-12 items-center"
+                        style={{ x }}
                     >
-                        <CarDetailView mustang={visibleCars[0]} />
-                        <CarDetailView mustang={visibleCars[1]} isMain />
-                        <CarDetailView mustang={visibleCars[2]} />
+                        {mustangs.map((car, i) => (
+                            <div
+                                key={car.id}
+                                className={`transition-all duration-300 flex-shrink-0 ${i === index ? 'scale-100 z-10' : 'scale-75 opacity-40'}`}
+                                style={{ width: '320px' }}
+                            >
+                                <CarDetailView mustang={car} isMain={i === index} />
+                            </div>
+                        ))}
                     </motion.div>
                 </div>
 
@@ -84,17 +80,28 @@ export default function GalleryView() {
                 </button>
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex gap-6 mt-10">
                 <button className="bg-pink-600 text-white px-6 py-2 rounded-xl border border-pink-300 shadow-lg hover:bg-pink-700">
                     Ver especificaciones
                 </button>
                 <button className="bg-cyan-600 text-white px-6 py-2 rounded-xl border border-cyan-300 shadow-lg hover:bg-cyan-700">
                     Comparar
                 </button>
-                <button className="bg-indigo-600 text-white px-6 py-2 rounded-xl border border-indigo-300 shadow-lg hover:bg-indigo-700">
-                    Escuchar motor
-                </button>
+                {currentMustang.model3DId && (
+                    <button
+                        onClick={() => setShow3D(true)}
+                        className="bg-indigo-600 text-white px-6 py-2 rounded-xl border border-indigo-300 shadow-lg hover:bg-indigo-700"
+                    >
+                        Ver en 3D
+                    </button>
+                )}
             </div>
+
+            {show3D && currentMustang.model3DId && (
+                <Modal onClose={() => setShow3D(false)}>
+                    <SketchfabViewer modelId={currentMustang.model3DId} />
+                </Modal>
+            )}
         </div>
     );
 }
