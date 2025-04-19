@@ -1,4 +1,3 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -6,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import GalleryView from "./components/GalleryView";
 import SplashScreen from "./components/SplashScreen";
 import MainMenu from "./components/MainMenu";
+import HistoryView from "./components/HistoryView";
 import TransitionOverlay from "./components/TransitionOverlay";
 
 function AnimatedRoutes() {
@@ -44,7 +44,7 @@ function AnimatedRoutes() {
       title: "Historia",
       subtitle: "Línea del tiempo Mustang",
       image: "/assets/history-bg.jpg",
-      onClick: () => alert("Historia aún no implementado"),
+      onClick: () => handleNavigate("/historia"),
     },
   ];
 
@@ -56,6 +56,7 @@ function AnimatedRoutes() {
           <Route path="/" element={<SplashScreen />} />
           <Route path="/main-menu" element={<MainMenu menuItems={menuItems} />} />
           <Route path="/gallery" element={<GalleryView />} />
+          <Route path="/historia" element={<HistoryView />} />
         </Routes>
       </AnimatePresence>
     </>
