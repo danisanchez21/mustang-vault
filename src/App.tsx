@@ -1,16 +1,32 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+
 import GalleryView from "./components/GalleryView";
 import SplashScreen from "./components/SplashScreen";
 import MainMenu from "./components/MainMenu";
+import TransitionOverlay from "./components/TransitionOverlay";
 
-function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [showTransition, setShowTransition] = useState(false);
+
+  const handleNavigate = (path: string) => {
+    setShowTransition(true);
+    setTimeout(() => {
+      navigate(path);
+      setShowTransition(false);
+    }, 800);
+  };
+
   const menuItems = [
     {
       title: "Galería",
       subtitle: "Modelos Clásicos",
       image: "/assets/gallery-bg.jpg",
-      onClick: () => window.location.href = "/gallery",
+      onClick: () => handleNavigate("/gallery"),
     },
     {
       title: "Comparar",
@@ -33,14 +49,23 @@ function App() {
   ];
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SplashScreen />} />
-        <Route path="/main-menu" element={<MainMenu menuItems={menuItems} />} />
-        <Route path="/gallery" element={<GalleryView />} />
-      </Routes>
-    </Router>
+    <>
+      <TransitionOverlay isVisible={showTransition} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/main-menu" element={<MainMenu menuItems={menuItems} />} />
+          <Route path="/gallery" element={<GalleryView />} />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AnimatedRoutes />
+    </Router>
+  );
+}

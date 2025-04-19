@@ -25,7 +25,6 @@ const GridMotion: FC<GridMotionProps> = ({
     const mouseXRef = useRef<number>(window.innerWidth / 2);
 
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-    const [exitStarted, setExitStarted] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,7 +73,8 @@ const GridMotion: FC<GridMotionProps> = ({
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`,
                 }}
                 initial={{ opacity: 1 }}
-                animate={exitStarted ? { opacity: 0 } : { opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
             >
                 <div className="gridMotion-container custom-cols overflow-visible">
@@ -101,11 +101,10 @@ const GridMotion: FC<GridMotionProps> = ({
                                         className="relative w-full h-full cursor-pointer group"
                                         onClick={() => {
                                             setSelectedIndex(idx);
-                                            setExitStarted(true);
                                             setTimeout(() => {
                                                 section.onClick();
                                                 navigate(`/${section.title.toLowerCase()}`);
-                                            }, 600);
+                                            }, 600); // sincroniza con duración de animación
                                         }}
                                     >
                                         <img
