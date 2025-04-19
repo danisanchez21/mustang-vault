@@ -1,4 +1,5 @@
-import { useEffect, useRef, FC } from "react";
+import { useEffect, useRef, useState, FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { motion } from "framer-motion";
 import "./GridMotion.css";
@@ -23,6 +24,10 @@ const GridMotion: FC<GridMotionProps> = ({
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
     const mouseXRef = useRef<number>(window.innerWidth / 2);
 
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [exitStarted, setExitStarted] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => {
         gsap.ticker.lagSmoothing(0);
 
@@ -39,8 +44,8 @@ const GridMotion: FC<GridMotionProps> = ({
                 if (row) {
                     const direction = index % 2 === 0 ? 1 : -1;
                     const moveAmount =
-                        ((mouseXRef.current / window.innerWidth) * maxMoveAmount - maxMoveAmount / 2) *
-                        direction;
+                        ((mouseXRef.current / window.innerWidth) * maxMoveAmount -
+                            maxMoveAmount / 2) * direction;
 
                     gsap.to(row, {
                         x: moveAmount,
@@ -63,11 +68,14 @@ const GridMotion: FC<GridMotionProps> = ({
 
     return (
         <div className="noscroll loading overflow-visible" ref={containerRef}>
-            <section
-                className="intro overflow-visible"
+            <motion.section
+                className="intro flex flex-col items-center justify-center pt-4 pb-16 overflow-visible"
                 style={{
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`,
                 }}
+                initial={{ opacity: 1 }}
+                animate={exitStarted ? { opacity: 0 } : { opacity: 1 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
             >
                 <div className="gridMotion-container custom-cols overflow-visible">
                     {sections.map((section, idx) => (
@@ -78,16 +86,27 @@ const GridMotion: FC<GridMotionProps> = ({
                                 rowRefs.current[idx] = el;
                             }}
                         >
-                            <motion.div
-                                className="row__item scale-110"
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: idx * 0.2 }}
-                            >
-                                <div className="row__item-inner shadow-2xl rounded-xl overflow-hidden">
+                            <div className="row__item scale-110">
+                                <motion.div
+                                    className="row__item-inner shadow-2xl rounded-xl overflow-hidden group transition duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.7)]"
+                                    initial={{ scale: 1, opacity: 1, rotate: 0 }}
+                                    animate={
+                                        selectedIndex === idx
+                                            ? { scale: 1.5, opacity: 0, rotate: 15 }
+                                            : { scale: 1, opacity: 1, rotate: 0 }
+                                    }
+                                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                                >
                                     <div
                                         className="relative w-full h-full cursor-pointer group"
-                                        onClick={section.onClick}
+                                        onClick={() => {
+                                            setSelectedIndex(idx);
+                                            setExitStarted(true);
+                                            setTimeout(() => {
+                                                section.onClick();
+                                                navigate(`/${section.title.toLowerCase()}`);
+                                            }, 600);
+                                        }}
                                     >
                                         <img
                                             src={section.image}
@@ -100,13 +119,12 @@ const GridMotion: FC<GridMotionProps> = ({
                                             <p className="text-sm opacity-80 italic">{section.subtitle}</p>
                                         </div>
                                     </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </div>
                         </div>
                     ))}
                 </div>
-                <div className="fullview"></div>
-            </section>
+            </motion.section>
         </div>
     );
 };
