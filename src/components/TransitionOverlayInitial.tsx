@@ -16,7 +16,7 @@ export default function TransitionOverlayInitial({ onFinish }: Props) {
         }, 1100);
 
         return () => clearTimeout(timeout);
-    }, []);
+    }, [onFinish]);
 
     return (
         <AnimatePresence>
