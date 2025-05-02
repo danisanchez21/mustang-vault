@@ -4,7 +4,6 @@ import CarDetailView from './CarDetailView';
 import bgCyberpunk from '/public/assets/violet-cyberpunk-background.jpg';
 import Modal from './Modal';
 import SketchfabViewer from './SketchfabViewer';
-
 import { motion, useMotionValue, animate } from 'framer-motion';
 
 export default function GalleryView() {
@@ -39,9 +38,13 @@ export default function GalleryView() {
     const currentMustang = mustangs[index];
 
     return (
-        <div
+        <motion.div
             className="min-h-screen bg-cover bg-center text-cyan-400 flex flex-col items-center justify-center font-sans p-6"
             style={{ backgroundImage: `url(${bgCyberpunk})` }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
         >
             <h1 className="ford-font text-6xl font-bold text-cyan-300 mb-8">Galería &gt;</h1>
 
@@ -102,6 +105,6 @@ export default function GalleryView() {
                     <SketchfabViewer modelId={currentMustang.model3DId} />
                 </Modal>
             )}
-        </div>
+        </motion.div>
     );
 }

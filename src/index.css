@@ -8,3 +8,7 @@
 .ford-font {
   font-family: 'FordAntenna';
 }
+
+body {
+  overflow-x: hidden;
+}

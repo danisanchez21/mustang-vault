@@ -1,0 +1,45 @@
+/* Si no los tienes ya, añade o ajusta: */
+.gridMotion-container.custom-cols {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* ⬅️ centrado vertical */
+    align-items: center;
+    gap: 0.2rem;
+    /* ⬅️ separación entre tarjetas */
+    transform: rotate(-5deg);
+    padding-top: 2rem; /* espacio superior para el título */
+    padding-bottom: 7rem;
+}
+
+.row.custom-row {
+    display: flex;
+    justify-content: center;
+}
+
+.row__item {
+    width: 320px;
+    height: 190px;
+}
+
+.row__item-inner {
+    width: 90%;
+    height: 90%;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+}
+
+.intro {
+    width: 120%;
+    min-height: 100vh;
+    overflow: visible; /* << esto es clave */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
